@@ -277,8 +277,8 @@
     if (revealEmailBtn) {
       revealEmailBtn.addEventListener('click', function (e) {
         e.preventDefault();
-        var u = 'yaseen0706';
-        var d = 'gmail.com';
+        var u = 'yaseen';
+        var d = 'amyaseen.com';
         var m = u + '@' + d;
         this.textContent = m;
         this.href = 'mailto:' + m;
