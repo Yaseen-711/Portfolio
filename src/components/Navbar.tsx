@@ -32,27 +32,25 @@ export const Navbar: React.FC<NavbarProps> = ({ onContactClick }) => {
       id="site-navbar"
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
         scrolled
-          ? 'bg-[#090a0d]/90 backdrop-blur-md border-b border-zinc-800/80 py-3 shadow-lg shadow-black/20'
-          : 'bg-[#090a0d]/60 backdrop-blur-sm border-b border-zinc-850/50 py-3.5'
+          ? 'bg-[#0e0f0c]/90 backdrop-blur-md border-b border-zinc-800/80 py-3 shadow-lg shadow-black/30'
+          : 'bg-[#0e0f0c]/60 backdrop-blur-sm border-b border-zinc-800/40 py-3.5'
       }`}
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between">
-        {/* Left: Domain & Status pill */}
-        <div className="flex items-center gap-3">
+        {/* Left: Name & Website name (no btech, no green dots) */}
+        <div className="flex items-center gap-2">
           <a
             id="nav-brand-link"
             href="#"
-            className="font-mono text-sm sm:text-base font-semibold text-white tracking-tight hover:text-zinc-300 transition-colors"
+            className="flex items-baseline gap-2 group tracking-tight"
           >
-            {PERSONAL_INFO.domain}
+            <span className="font-mono text-sm sm:text-base font-bold text-white group-hover:text-zinc-200 transition-colors">
+              {PERSONAL_INFO.name}
+            </span>
+            <span className="hidden sm:inline text-xs font-mono text-zinc-400 font-normal">
+              / {PERSONAL_INFO.websiteTitle}
+            </span>
           </a>
-          <span
-            id="nav-degree-pill"
-            className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-mono border border-zinc-800 bg-zinc-900/80 text-zinc-400"
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            {PERSONAL_INFO.degreePill}
-          </span>
         </div>
 
         {/* Center: Navigation links (Desktop) */}
@@ -119,12 +117,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onContactClick }) => {
       {mobileMenuOpen && (
         <div
           id="nav-mobile-drawer"
-          className="md:hidden border-b border-zinc-800 bg-[#090a0d] px-4 py-4 space-y-3"
+          className="md:hidden border-b border-zinc-800 bg-[#0e0f0c] px-4 py-4 space-y-3"
         >
-          <div className="flex items-center gap-2 pb-2 border-b border-zinc-800/60">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-xs font-mono text-zinc-400">{PERSONAL_INFO.degreePill}</span>
-          </div>
           <div className="grid grid-cols-2 gap-2 pt-1">
             {navLinks.map((link) => (
               <a

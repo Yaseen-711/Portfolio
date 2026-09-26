@@ -14,6 +14,9 @@ import { CertificationsSection } from './components/CertificationsSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { Toast } from './components/Toast';
+import { ParallaxBackground } from './components/ParallaxBackground';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 export default function App() {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -33,12 +36,15 @@ export default function App() {
   };
 
   return (
-    <div id="portfolio-app-root" className="min-h-screen bg-[#08090c] text-zinc-100 font-sans selection:bg-zinc-700 selection:text-white relative">
+    <div id="portfolio-app-root" className="min-h-screen text-zinc-100 font-sans selection:bg-zinc-700 selection:text-white relative">
+      {/* Geometric Parallax Background from v1 */}
+      <ParallaxBackground />
+
       {/* Top Navbar */}
       <Navbar onContactClick={handleContactClick} />
 
-      {/* Main Page Layout matching screenshot hierarchy */}
-      <main id="main-content" className="max-w-4xl mx-auto px-4 sm:px-6 pt-24 pb-6">
+      {/* Main Page Layout */}
+      <main id="main-content" className="max-w-4xl mx-auto px-4 sm:px-6 pt-24 pb-6 relative z-10">
         {/* Profile Card Header */}
         <HeroCard onNotify={showNotification} />
 
@@ -66,6 +72,10 @@ export default function App() {
 
       {/* Interactive Toast Notifications */}
       <Toast message={toastMessage} />
+
+      {/* Vercel Analytics & Speed Insights Tracking */}
+      <Analytics />
+      <SpeedInsights />
     </div>
   );
 }

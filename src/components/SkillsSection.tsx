@@ -20,10 +20,10 @@ export const SkillsSection: React.FC = () => {
         <span className="font-mono text-xs text-zinc-500">skills_manifest</span>
       </div>
 
-      {/* 4 Competency Columns */}
+      {/* 6 Competency Columns */}
       <div
         id="skills-grid"
-        className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+        className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4.5"
       >
         {SKILL_GROUPS.map((group) => (
           <div

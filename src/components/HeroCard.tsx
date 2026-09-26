@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Copy, Check, ExternalLink, Mail, MapPin } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Copy, Check, ExternalLink, Mail, MapPin, Download } from 'lucide-react';
 import { PERSONAL_INFO } from '../data/portfolioData';
 
 interface HeroCardProps {
@@ -9,6 +9,19 @@ interface HeroCardProps {
 export const HeroCard: React.FC<HeroCardProps> = ({ onNotify }) => {
   const [copied, setCopied] = useState(false);
   const [showFullEmail, setShowFullEmail] = useState(false);
+  const [profileImg, setProfileImg] = useState('/assets/profile1.png');
+
+  // Alternates profile photo on each reload like v1
+  useEffect(() => {
+    try {
+      const last = localStorage.getItem('lastProfileImg');
+      const next = last === 'profile1.png' ? 'profile2.png' : 'profile1.png';
+      localStorage.setItem('lastProfileImg', next);
+      setProfileImg(`/assets/${next}`);
+    } catch {
+      setProfileImg('/assets/profile1.png');
+    }
+  }, []);
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(PERSONAL_INFO.realEmail);
@@ -20,7 +33,7 @@ export const HeroCard: React.FC<HeroCardProps> = ({ onNotify }) => {
   return (
     <div
       id="hero-profile-card"
-      className="relative rounded-xl border border-zinc-800/90 bg-[#0d0f14]/80 p-5 sm:p-7 shadow-2xl backdrop-blur-sm overflow-hidden"
+      className="relative rounded-xl border border-zinc-800/90 bg-[#0d0f14]/85 p-5 sm:p-7 shadow-2xl backdrop-blur-md overflow-hidden"
     >
       {/* Background subtle radial glow */}
       <div className="absolute top-0 right-1/4 w-72 h-40 bg-zinc-800/10 rounded-full blur-3xl pointer-events-none -z-10" />
@@ -29,12 +42,20 @@ export const HeroCard: React.FC<HeroCardProps> = ({ onNotify }) => {
       <div className="flex flex-col md:flex-row md:items-start justify-between gap-5">
         {/* Profile Info Left */}
         <div className="flex items-start gap-4 sm:gap-5">
-          {/* Avatar Monogram AY */}
+          {/* Authentic Profile Photo with rounded border */}
           <div
-            id="hero-avatar-monogram"
-            className="w-14 h-14 sm:w-16 sm:h-16 shrink-0 rounded-lg bg-zinc-900 border border-zinc-750 flex items-center justify-center font-mono text-lg sm:text-xl font-bold text-zinc-100 shadow-inner select-none"
+            id="hero-avatar-wrapper"
+            className="w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-xl overflow-hidden border border-zinc-700/80 bg-zinc-900 shadow-md select-none"
           >
-            {PERSONAL_INFO.initials}
+            <img
+              src={profileImg}
+              alt={PERSONAL_INFO.name}
+              className="w-full h-full object-cover object-top"
+              onError={(e) => {
+                // If dynamic fails, fallback to profile1
+                (e.currentTarget as HTMLImageElement).src = '/assets/profile1.png';
+              }}
+            />
           </div>
 
           {/* Text block */}
@@ -79,6 +100,18 @@ export const HeroCard: React.FC<HeroCardProps> = ({ onNotify }) => {
           id="hero-actions-container"
           className="flex flex-wrap items-center gap-2 self-start pt-1 sm:pt-0"
         >
+          {/* Prominent Download CV Button */}
+          <a
+            id="hero-download-cv-btn"
+            href={PERSONAL_INFO.resumeUrl}
+            download="Ali_Mohammed_Yaseen_Resume.pdf"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-mono font-medium text-zinc-950 bg-zinc-100 hover:bg-white hover:shadow transition-all cursor-pointer"
+            title="Download Resume (PDF)"
+          >
+            <Download className="w-3.5 h-3.5 text-zinc-900" />
+            <span>Download CV</span>
+          </a>
+
           <button
             id="hero-copy-email-btn"
             onClick={handleCopyEmail}
@@ -124,7 +157,7 @@ export const HeroCard: React.FC<HeroCardProps> = ({ onNotify }) => {
         </div>
       </div>
 
-      {/* Bottom Metadata Bar */}
+      {/* Bottom Metadata Bar (No green pulsing dots) */}
       <div
         id="hero-meta-strip"
         className="mt-6 pt-4 border-t border-zinc-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono text-zinc-400"
@@ -136,9 +169,8 @@ export const HeroCard: React.FC<HeroCardProps> = ({ onNotify }) => {
 
         <div id="hero-status-info" className="flex items-center gap-2">
           <span className="text-zinc-500">Status:</span>
-          <span className="inline-flex items-center gap-1.5 text-zinc-300 font-mono">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span>{PERSONAL_INFO.status}</span>
+          <span className="text-zinc-300 font-mono">
+            {PERSONAL_INFO.status}
           </span>
         </div>
 
@@ -148,10 +180,10 @@ export const HeroCard: React.FC<HeroCardProps> = ({ onNotify }) => {
             id="hero-email-toggle-btn"
             onClick={() => setShowFullEmail(!showFullEmail)}
             className="text-zinc-300 hover:text-white transition-colors cursor-pointer hover:underline decoration-zinc-700 flex items-center gap-1"
-            title={showFullEmail ? 'Click to mask email' : 'Click to reveal full email'}
+            title={showFullEmail ? 'Click to hide email' : 'Click to reveal full email'}
           >
             <Mail className="w-3 h-3 text-zinc-500" />
-            <span>{showFullEmail ? PERSONAL_INFO.realEmail : PERSONAL_INFO.maskedEmail}</span>
+            <span>{showFullEmail ? PERSONAL_INFO.realEmail : 'Click to reveal'}</span>
           </button>
         </div>
       </div>

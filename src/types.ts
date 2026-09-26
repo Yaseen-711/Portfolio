@@ -5,7 +5,7 @@ export interface Project {
   description: string;
   tags: string[];
   repoUrl: string;
-  category: 'C' | 'Hackathon' | 'ML API' | 'Systems';
+  category: string;
   longDescription?: string;
   highlights?: string[];
   techStack?: { label: string; items: string[] }[];
@@ -34,6 +34,7 @@ export interface Certification {
   credentialId: string;
   fullCredentialId: string;
   verifyUrl?: string;
+  pdfUrl?: string;
 }
 
 export interface SocialLink {

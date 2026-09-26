@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Copy, Check, ExternalLink } from 'lucide-react';
+import { Copy, Check, ExternalLink, Download } from 'lucide-react';
 import { CERTIFICATIONS } from '../data/portfolioData';
 
 interface CertificationsSectionProps {
@@ -45,7 +45,7 @@ export const CertificationsSection: React.FC<CertificationsSectionProps> = ({ on
             <div
               key={cert.id}
               id={`cert-card-${cert.id}`}
-              className="rounded-xl border border-zinc-800/80 bg-[#0d0f14]/70 p-5 backdrop-blur-sm flex flex-col justify-between hover:border-zinc-700 transition-all duration-200"
+              className="rounded-xl border border-zinc-800/80 bg-[#0d0f14]/80 p-5 backdrop-blur-md flex flex-col justify-between hover:border-zinc-700 transition-all duration-200"
             >
               {/* Top metadata */}
               <div>
@@ -57,19 +57,19 @@ export const CertificationsSection: React.FC<CertificationsSectionProps> = ({ on
                 {/* Certificate Title */}
                 <h3
                   id={`cert-title-${cert.id}`}
-                  className="text-sm font-medium text-zinc-100 mt-2 mb-4 leading-snug"
+                  className="text-sm font-semibold text-zinc-100 mt-2 mb-3 leading-snug"
                 >
                   {cert.title}
                 </h3>
               </div>
 
-              {/* Bottom Credential ID + Copy Button */}
-              <div className="pt-3 border-t border-zinc-850/60 flex items-center justify-between text-xs font-mono text-zinc-400">
-                <span className="truncate pr-2" title={cert.fullCredentialId}>
-                  ID: {cert.credentialId}
-                </span>
+              {/* Action Buttons & Credential ID */}
+              <div className="pt-3 border-t border-zinc-850/60 space-y-3">
+                <div className="flex items-center justify-between text-xs font-mono text-zinc-400">
+                  <span className="truncate pr-2" title={cert.fullCredentialId}>
+                    ID: {cert.credentialId}
+                  </span>
 
-                <div className="flex items-center gap-1.5 shrink-0">
                   <button
                     id={`cert-copy-btn-${cert.id}`}
                     onClick={() => handleCopy(cert.id, cert.fullCredentialId, cert.title)}
@@ -83,15 +83,31 @@ export const CertificationsSection: React.FC<CertificationsSectionProps> = ({ on
                       <Copy className="w-3.5 h-3.5" />
                     )}
                   </button>
+                </div>
+
+                <div className="flex items-center gap-2 pt-1">
+                  {cert.pdfUrl && (
+                    <a
+                      href={cert.pdfUrl}
+                      download
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-mono text-zinc-200 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 hover:text-white hover:bg-zinc-850 transition-all"
+                      title="Download Certificate PDF"
+                    >
+                      <Download className="w-3 h-3 text-zinc-400" />
+                      <span>Download PDF</span>
+                    </a>
+                  )}
+
                   {cert.verifyUrl && (
                     <a
                       href={cert.verifyUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-1 rounded hover:bg-zinc-800 text-zinc-500 hover:text-zinc-300 transition-colors"
-                      title="Verify certificate"
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-mono text-zinc-200 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 hover:text-white hover:bg-zinc-850 transition-all"
+                      title="Verify Certificate Online"
                     >
-                      <ExternalLink className="w-3 h-3" />
+                      <ExternalLink className="w-3 h-3 text-zinc-400" />
+                      <span>Verify</span>
                     </a>
                   )}
                 </div>

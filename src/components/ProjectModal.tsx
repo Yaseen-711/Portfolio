@@ -146,7 +146,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
           )}
 
           {/* Interactive ASCII Simulator specifically for terminal-2d-graphics-editor */}
-          {project.id === 'terminal-2d-graphics-editor' && (
+          {(project.id === 'terminal-2d-graphics-editor' || project.id === '2d-graphics-editor') && (
             <div className="p-4 rounded-lg bg-black border border-zinc-800/90 font-mono">
               <div className="flex items-center justify-between pb-2 border-b border-zinc-850 mb-3 text-xs">
                 <div className="flex items-center gap-1.5 text-zinc-400">

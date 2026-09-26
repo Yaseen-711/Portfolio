@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Folder, ArrowUpRight } from 'lucide-react';
+import { Folder, ArrowUpRight, Github } from 'lucide-react';
 import { PROJECTS, PERSONAL_INFO } from '../data/portfolioData';
 import { Project } from '../types';
 import { ProjectModal } from './ProjectModal';
@@ -17,7 +17,7 @@ export const ProjectsSection: React.FC = () => {
         <div className="flex items-center gap-2">
           <span className="font-mono text-xs text-zinc-500">02.</span>
           <h2 className="text-sm sm:text-base font-semibold text-zinc-100 tracking-tight">
-            Projects
+            Featured Projects
           </h2>
         </div>
         <a
@@ -32,7 +32,7 @@ export const ProjectsSection: React.FC = () => {
         </a>
       </div>
 
-      {/* Projects 2x2 Grid */}
+      {/* Projects Grid */}
       <div
         id="projects-grid"
         className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 items-stretch"
@@ -42,7 +42,7 @@ export const ProjectsSection: React.FC = () => {
             key={project.id}
             id={`project-card-${project.id}`}
             onClick={() => setSelectedProject(project)}
-            className="group rounded-xl border border-zinc-800/80 bg-[#0d0f14]/70 p-5 sm:p-6 backdrop-blur-sm hover:border-zinc-700 hover:bg-[#0f1219]/80 transition-all duration-200 flex flex-col justify-between cursor-pointer"
+            className="group rounded-xl border border-zinc-800/80 bg-[#0d0f14]/80 p-5 sm:p-6 backdrop-blur-md hover:border-zinc-700 hover:bg-[#0f1219]/90 transition-all duration-200 flex flex-col justify-between cursor-pointer"
           >
             {/* Top row: Folder icon + Title + Category Badge */}
             <div>
@@ -73,7 +73,7 @@ export const ProjectsSection: React.FC = () => {
               </p>
             </div>
 
-            {/* Bottom: Tags & Repository Link */}
+            {/* Bottom: Tags & Repository Links */}
             <div className="mt-6 pt-4 border-t border-zinc-850/60 flex flex-col gap-3">
               {/* Tags */}
               <div className="flex flex-wrap gap-1.5">
@@ -87,19 +87,34 @@ export const ProjectsSection: React.FC = () => {
                 ))}
               </div>
 
-              {/* View Repository Button */}
-              <div className="flex justify-end items-center pt-1">
+              {/* Action Buttons: Direct GitHub & Details Modal */}
+              <div className="flex justify-between items-center pt-1 text-xs font-mono">
                 <button
-                  id={`project-view-btn-${project.id}`}
+                  id={`project-view-details-${project.id}`}
                   onClick={(e) => {
                     e.stopPropagation();
                     setSelectedProject(project);
                   }}
-                  className="inline-flex items-center gap-1 text-xs font-mono text-zinc-400 group-hover:text-zinc-200 transition-colors cursor-pointer"
+                  className="inline-flex items-center gap-1 text-zinc-400 group-hover:text-zinc-200 transition-colors cursor-pointer"
                 >
-                  <span>View Repository</span>
+                  <span>Specs & Arch</span>
                   <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </button>
+
+                {project.repoUrl && (
+                  <a
+                    id={`project-github-link-${project.id}`}
+                    href={project.repoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 hover:text-white transition-all"
+                    title="View GitHub Repository"
+                  >
+                    <Github className="w-3.5 h-3.5" />
+                    <span>Repo</span>
+                  </a>
+                )}
               </div>
             </div>
           </div>
